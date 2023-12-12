@@ -2,10 +2,14 @@ package ru.panteleevya;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.panteleevya.secret.LockboxKeyValue;
 import ru.panteleevya.secret.LockboxSecretProvider;
 import ru.panteleevya.secret.LockboxSecretVersion;
 import ru.panteleevya.token.IamToken;
 import ru.panteleevya.token.IamTokenProvider;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class Main {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -15,11 +19,11 @@ public class Main {
     /**
      * Application is fetching properties from the Yandex Cloud Lockbox to the system environment.
      *
-     * @param args consists of [OAuth-token, secret-id]
+     * @param args consists of [OAuth-token, secret-id, destination]
      */
     public static void main(String[] args) {
         log.info("Application started");
-        if (args.length != 2) {
+        if (args.length != 3) {
             log.error("Arguments must consists of [OAuth-token, secret-id]");
             return;
         }
@@ -37,7 +41,14 @@ public class Main {
             log.error("Failed to load secret", e);
             return;
         }
-        System.setProperties(secret.getProperties());
+        try (PrintWriter writer = new PrintWriter(args[2], StandardCharsets.UTF_8)) {
+            for (LockboxKeyValue entry : secret.entries()) {
+                writer.println(entry);
+            }
+        } catch (IOException e) {
+            log.error("Failed to write properties to file", e);
+            return;
+        }
         log.info("Application finished all the jobs");
     }
 }

@@ -35,8 +35,8 @@ public class LockboxSecretProvider {
                 String.class
         );
         Gson gson = new Gson();
-        var lockboxSecretVersionDto = gson.fromJson(responseEntity.getBody(), LockboxSecretVersionDto.class);
+        LockboxSecretVersion lockboxSecretVersion = gson.fromJson(responseEntity.getBody(), LockboxSecretVersion.class);
         log.info("Successfully fetched the latest version of the secret with id={}", secretId);
-        return LockboxSecretVersion.fromDto(lockboxSecretVersionDto);
+        return lockboxSecretVersion;
     }
 }
