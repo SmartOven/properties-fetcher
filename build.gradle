@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.panteleevya'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework:spring-web:6.0.12'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.apache.logging.log4j:log4j-core:2.22.0'
+}
+
+test {
+    useJUnitPlatform()
+}
