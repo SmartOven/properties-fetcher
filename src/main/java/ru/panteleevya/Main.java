@@ -8,8 +8,10 @@ import ru.panteleevya.secret.LockboxSecretVersion;
 import ru.panteleevya.token.IamToken;
 import ru.panteleevya.token.IamTokenProvider;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class Main {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -24,7 +26,7 @@ public class Main {
     public static void main(String[] args) {
         log.info("Application started");
         if (args.length != 3) {
-            log.error("Arguments must consists of [OAuth-token, secret-id]");
+            log.error("Arguments must consists of [OAuth-token, secret-id, destination], but they are {}", Arrays.toString(args));
             return;
         }
         IamToken iamToken;
